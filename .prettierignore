@@ -1,0 +1,14 @@
+.github
+.ncurc.json
+README.md
+node_modules
+.next
+out
+dist
+build
+public
+.vercel
+package-lock.json
+package.json
+migrations
+tmp
