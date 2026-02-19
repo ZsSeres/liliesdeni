@@ -11,7 +11,7 @@ export default function ApplicationPage(){
           >
             <div className="flex flex-col gap-6 sm:max-w-[400px] text-black">
               <p>
-                Kérjük, részvételi szándékod az alábbi űrlap kitöltésével jelezd 2026. március 1-ig!
+                Kérjük, részvételi szándékod az alábbi űrlap kitöltésével jelezd 2026. március 31-ig!
               </p>
               <ApplicationForm />
             </div>

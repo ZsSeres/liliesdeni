@@ -41,7 +41,7 @@ const AffirmationEmailTemplate = (props: WeddingApplicationFormData) => {
           {props.otherGuests && (
             <>
               <p style={dataLabel}>További vendégek:</p>
-              <p style={dataValue}>{props.otherGuests}</p>
+              <p style={dataValue}>{props.otherGuests.join(", ")}</p>
             </>
           )}
 
@@ -77,7 +77,7 @@ const AffirmationEmailTemplate = (props: WeddingApplicationFormData) => {
         <p style={signature}>
           Szeretettel,
           <br />
-          Zsófi & Andris
+          Lili & Deni
         </p>
       </div>
     </div>

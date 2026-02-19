@@ -7,7 +7,7 @@ export default function useSectionTracker() {
 
   useEffect(() => {
     const handleHashChange = () => {
-      setSection(window.location.hash.slice(1) || null);
+      setSection(window.location.hash.slice(1) || "");
     };
 
     // Run once on mount

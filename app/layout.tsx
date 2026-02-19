@@ -1,10 +1,8 @@
-import PHProvider from '@/app/_components/PHProvider';
 import type { Metadata } from 'next';
 import { Libre_Baskerville, Playfair_Display } from 'next/font/google';
 import { headers } from 'next/headers';
 import { Toaster } from 'sonner';
 import './globals.css';
-import MainLayout from './_components/MainLayout/MainLayout';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
@@ -37,14 +35,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfair.variable} ${libre.variable}`}>
-      <PHProvider>
-        <body className="font-playfair text-kombu-green selection:bg-[#566235]/40 caret-kombu-green antialiased mx-auto max-w-screen overflow-x-hidden overscroll-none sm:bg-[#FEFEFD]/60 bg-[##FEFEFD]/30">
+        <body className="font-playfair text-kombu-green selection:bg-[#566235]/40 caret-kombu-green antialiased mx-auto max-w-screen overflow-x-hidden overscroll-none bg-amber-50">
           <main>
               {children}
           </main>
           <Toaster />
         </body>
-      </PHProvider>
     </html>
   );
 }

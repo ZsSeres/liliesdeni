@@ -7,9 +7,8 @@ import { Resend } from 'resend';
 
 const hostEmails = process.env.HOST_EMAILS?.split(',') || [];
 const loggingEmail = process.env.LOGGING_EMAIL || '';
-const senderEmail = 'noreply@zsofiesandris.hu';
+const senderEmail = 'noreply@liliesdeni.hu';
 const resend = new Resend(process.env.RESEND_API_KEY);
-const isDev = process.env.NODE_ENV === 'development';
 
 export const submitApplication = async (formData: WeddingApplicationFormData) => {
   try {
@@ -18,11 +17,6 @@ export const submitApplication = async (formData: WeddingApplicationFormData) =>
     await addApplication(formData);
     console.log('Application added to database successfully');
 
-    if (isDev) {
-      console.log('Development mode - skipping emails');
-      return { isSuccess: true };
-    }
-
     console.log('Sending emails...');
     console.log('Host emails:', hostEmails);
     console.log('Logging email:', loggingEmail);
@@ -30,14 +24,14 @@ export const submitApplication = async (formData: WeddingApplicationFormData) =>
     const emailResults = await Promise.allSettled([
       resend.emails.send({
         from: senderEmail,
-        to: isDev ? [loggingEmail] : hostEmails.filter(Boolean),
+        to: hostEmails.filter(Boolean),
         bcc: [loggingEmail].filter(Boolean),
         subject: 'Leadott jelentkezés',
         react: AdminNotifierEmailTemplate(formData),
       }),
       resend.emails.send({
         from: senderEmail,
-        to: isDev && loggingEmail ? [loggingEmail] : [formData.email],
+        to: [formData.email],
         bcc: [loggingEmail].filter(Boolean),
         subject: 'Visszaigazolás a jelentkezésedről',
         react: AffirmationEmailTemplate(formData),

@@ -1,8 +1,13 @@
+import { useEffect } from "react";
+
 const ImageOverlay = ({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) => {
+
+
+
   return (
     <div className="absolute inset-0 w-full h-screen text-white animate-fadeIn overflow-y-auto">
   

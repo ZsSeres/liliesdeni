@@ -22,10 +22,6 @@ Finally, open `http://localhost:3000`.
 
 ## Dependencies
 
-- [PostHog](https://posthog.com/)
-    - create an API key
-- [Sentry](https://sentry.io/)
-    - copy the API key from the docs/tutorial
 - [Neon DB](https://neon.com/)
     - create an EU AWS DB
 - [Domain](https://portal.rackforest.com/)
@@ -65,10 +61,10 @@ $ reboot
 $ curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
 $ apt install -y nodejs
 $ adduser --system --group --home /home/webapp webapp
-$ mkdir -p /opt/zsofiesandris.hu
-$ chown webapp:webapp /opt/zsofiesandris.hu
-$ cd /opt/zsofiesandris.hu
-$ sudo -u webapp git clone https://github.com/gemesa/zsofiesandris.hu.git .
+$ mkdir -p /opt/liliesdeni
+$ chown webapp:webapp /opt/liliesdeni
+$ cd /opt/liliesdeni
+$ sudo -u webapp git clone https://github.com/ZsSeres/liliesdeni.git .
 $ # copy `.env` from Proton Pass
 $ chmod 600 .env
 $ chown webapp:webapp .env
@@ -87,7 +83,7 @@ $ sudo -u webapp npm install pm2
 $ sudo -u webapp npx pm2 start "npm run start-prod" --name "wedding-app"
 $ sudo -u webapp npx pm2 save
 $ sudo -u webapp npx pm2 startup
-$ env PATH=$PATH:/usr/bin /opt/zsofiesandris.hu/node_modules/pm2/bin/pm2 startup systemd -u webapp --hp /home/webapp
+$ env PATH=$PATH:/usr/bin /opt/liliesdeni/node_modules/pm2/bin/pm2 startup systemd -u webapp --hp /home/webapp
 $ systemctl reload caddy
 ```
 
@@ -105,7 +101,7 @@ $ cat /etc/caddy/Caddyfile
 # this machine's public IP, then replace ":80" below with your
 # domain name.
 
-zsofiesandris.hu, www.zsofiesandris.hu {
+liliesdeni.hu, www.liliesdeni.hu {
 	# Set this path to your site's directory.
 #	root * /usr/share/caddy
 
@@ -121,53 +117,7 @@ zsofiesandris.hu, www.zsofiesandris.hu {
 
 # Refer to the Caddy docs for more information:
 # https://caddyserver.com/docs/caddyfile
-```
 
-### GitHub webhook
-
-A GitHub webhook can be configured to automatically notify the hosting server to pull the changes and rebuild the page. Use the following settings:
-
-- Payload URL: https://zsofiesandris.hu/webhook
-- Content type: application/json
-
-`webhook-listener.js` contains a basic listener implementation and can be deployed via `pm2` similarly:
-
-```
-$ sudo -u webapp npx pm2 start webhook-listener.js --name "webhook-listener"
-$ sudo -u webapp npx pm2 save
-```
-
-Port 9000 has to be opened in the firewall settings and the Caddy config file has to be updated:
-
-```
-$ cat /etc/caddy/Caddyfile
-...
-zsofiesandris.hu, www.zsofiesandris.hu {
-...
-	reverse_proxy localhost:3000
-
-    handle /webhook {
-            reverse_proxy localhost:9000
-    }
-...
-}
-```
-
-Alternatively, the following commands can be used to pull the changes and rebuild the page:
-
-```
-$ sudo -u webapp git fetch
-$ sudo -u webapp git pull
-$ sudo -u webapp npm ci
-$ sudo -u webapp npm run build
-$ sudo -u webapp npx pm2 restart wedding-app
-```
-
-Oneliner:
-
-```
-$ sudo -u webapp git fetch && sudo -u webapp git pull && sudo -u webapp npm ci && sudo -u webapp npm run build && sudo -u webapp npx pm2 restart wedding-app
-```
 
 ### References
 

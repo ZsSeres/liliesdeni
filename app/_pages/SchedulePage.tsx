@@ -7,7 +7,6 @@ const schedule: ScheduleItemType[] = [
     {name: "vendégvárás", time: "15:00"},
     {name: "szertartás", time: "16:00"},
     {name: "gratuláció, csoportképek", time: "16:45"},
-    {name: "gratuláció, csoportképek", time: "16:45"},
     {name: "vacsora", time: "18:30"},
     {name: "nyitótánc és buli kezdete", time: "20:00"},
     {name: "tortavágás", time: "22:00"},

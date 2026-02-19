@@ -17,8 +17,6 @@ const AdminNotifierEmailTemplate = (props: WeddingApplicationFormData) => {
         Részvétel: {props.attendance}
         <br />
         További vendégek: {props.otherGuests || '--'}
-        <br />3 év alatti gyerekek {props.smallChildren ?? '--'}
-        <br />3 és 12 év közötti gyerekek: {props.midChildren ?? '--'}
         <br />
         Szállás: {props.accommodation || '--'}
         <br />
@@ -30,7 +28,7 @@ const AdminNotifierEmailTemplate = (props: WeddingApplicationFormData) => {
         <br />
         Szeretettel,
         <br />
-        gemesa email szervere
+        ZsPapa email szervere
       </p>
     </div>
   );

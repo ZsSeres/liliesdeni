@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import SchedulePage from '@/app/_pages/SchedulePage';
 import { InfoPage } from '@/app/_pages/InfoPage';
+import { FullScreenLoader } from '../LoadingSpinner';
 
 const enum SectionEnum{
     Home = "home",
@@ -55,11 +56,12 @@ const currentPageMapper = {
 
 export default function MainLayout() {
     const {section} = useSectionTracker()
-    const currentSection = section ?? SectionEnum.Home
+    const currentSection = section === "" ? SectionEnum.Home : section
+    const page = currentPageMapper[currentSection] ?? <FullScreenLoader/>
 
     return (
         <div className="relative">
-        <Menu elements={menuElements} currentSection={section}/>
+        <Menu elements={menuElements} currentSection={currentSection}/>
         <div className="flex flex-col font-playfair bg-amber-50">
             <div className="w-full h-screen  relative">
                 <div className="w-full h-screen relative ">
@@ -69,16 +71,10 @@ export default function MainLayout() {
                         interval={3000}
                         />
                         <ImageOverlay>
-                        {currentPageMapper[currentSection]}
+                          {page}
                         </ImageOverlay>
                     </div>
-
-                    {/* <div className="absolute inset-0 ">
-                        <ImageOverlay>
-                        {currentPageMapper[currentSection]}
-                        </ImageOverlay>
-                    </div> */}
-                    </div>
+                  </div>
             </div>
             </div>
         </div>

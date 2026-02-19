@@ -8,17 +8,27 @@ export type MenuElement = {
 
 export const Menu = ({
   elements,
+  scrolled,
   currentSection = null,
 }: {
   elements: MenuElement[];
   currentSection: string | null;
+  scrolled?: boolean
 }) => {
+
+  
+  
   return (
     <nav
-      className="
+      className={`
         fixed top-0 inset-x-0 z-50
-        transition-all duration-300 bg-transparent
-      "
+        transition-all duration-300
+        ${
+          scrolled
+            ? "bg-black/70 backdrop-blur-md shadow-md"
+            : "bg-transparent"
+        }
+      `}
     >
       <ul className="flex justify-center space-x-6 sm:space-x-10 py-4">
         {elements.map((el, idx) => {
