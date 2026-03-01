@@ -17,11 +17,26 @@ export const getApplications = async () => {
   return data;
 };
 
+const getIsTransferBackDb  = (isTransferBack?: string) =>
+{
+  if(isTransferBack === "Igen")
+  {
+    return true
+  }
+  if(isTransferBack === "Nem")
+  {
+    return false
+  }
+
+  return undefined
+}
+
 export const addApplication = async (application: WeddingApplicationEntry) => {
   await db.insert(applications).values({
     email: application.email,
     fullName: application.fullName,
     attendance: application.attendance === 'Igen' ? true: false,
+    isTransferBack: getIsTransferBackDb(application.isTransferBack),
     phoneNumber: application.phoneNumber,
     otherGuests: application.otherGuests,
     accommodation: application.accommodation,

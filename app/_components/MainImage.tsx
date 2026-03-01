@@ -1,44 +1,59 @@
 "use client"
 
-import {  useEffect, useState } from 'react';
-
-import Image from 'next/image';
+import { useEffect, useState } from "react"
+import Image from "next/image"
 
 const blurDataUrl =
-  'data:image/webp;base64,UklGRrAFAABXRUJQVlA4WAoAAAAgAAAAJAAAFQAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDhMwQMAAC8kQAUADXUhov8BypEkOZIk94gssIB/Tpac/R98bU9VZgZwNiREkuRIkkc/g7fnj1KLrZTYtpEgSVLN5h/w/7UV8evnH+nwvuGO7nCDnkYKkmTa6yaDUQbLkd43nDvr6JTNGoGtvZbtFVtGo1Xs0ehRqOzRaADYa3RoaGg0rYRGo6KiUFJXyMiokUgmkjW2SOPW6LY29ho0miBIJkvIIFROi8DGXtbHjrO7HsnQHktr7bVVekFYN+aLY46+4QYcTIpLhb1NCUVjMA3WvWAHp9RMJvdYWGOtpViJKaRP57sN3zEHvXP6YlAQChYThWIhGeQDUOysGV2MxTXmmGNijxw7QYNPd9PGbnAMp4NpIvCiEEkEHggAUGhWFnJurjn5zne8853rCCg5xI7eavPpdPpwWBosGExWd5QIKISOQiLHHosv3/kcX7uv+Xx875Y7HIKDw4KCJ88vSx+Wlg5LbnwarEMAio5emBqFjFDsrb1p795z7/O5r/vWf785AIJ4QVxc7NmyNNKfdSxPD0sjA1A0qnIMjuXLZNsXPvMzPiffn/XP3r/vhL4RmzYJe9gAinS4M8+am/d5WsckFB29UlsnT1zbWWfd3t379t5zvIzrHpDUatNeb/IkgLDUG95oDCvHkJGplAqpEyfOOOPSrfv1vf3s7+UaOQawxmgro1BSNyw8jYNtajDUsSMMBl9CW2Is11hDI0677K5vtbBZ4ucptFq9ldKiVUmUdcMdvqisXi0tLS1C0pAkCAZRLCuvI864qxCbolWWFi28bOX1g3AO39HvcnttxTb6nAaE0FtEKLZYuaUlCpICybR894RWKr3dohctS4Z33h2+y3f5nrjcNaeNYQSkUlRo29KspYUVmzkSxebn/rAqUtF2271oWSp23nf6rr7bd/vuebqDzscDpFIobNXS0oyFjd3lzL6mxp/7E9pS0XaFt1/VFOwb7zv73b7bd7vLXfOApy1AVgrt2rY0MWNx5faFK1dO/Hz+K1qptGjRslUg+OU3+tZt3eZ2u8udOOgwAdqqctuxbWliYnJ2y7f6hS99zWdP0Wgryyqrl4QnPsNN92ovt9jb3sEDDhOAraK23MstV67Q1lrP+lzTt/z+O1cBklTAInwgmJY+TNyw11Ze9gYdBgpL6lAAABcPXDVizXt/9vvc769fVkIAxLAcRLCYlqeOm7+jwZO12hwGgwKgbFg6nZZGDq1Yz+f9//3f769TAlxIdhTLFotpcSxLX2YUDCZJkIIgmBY+HE6npYFLt/j3/79vHwAA';
+  "data:image/webp;base64,UklGRrAFAABXRUJQVlA4WAoAAAAgAAAAJAAAFQAASUNDUMgBAAAAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADZWUDhMwQMAAC8kQAUADXUhov8BypEkOZIk94gssIB/Tpac/R98bU9VZgZwNiREkuRIkkc/g7fnj1KLrZTYtpEgSVLN5h/w/7UV8evnH+nwvuGO7nCDnkYKkmTa6yaDUQbLkd43nDvr6JTNGoGtvZbtFVtGo1Xs0ehRqOzRaADYa3RoaGg0rYRGo6KiUFJXyMiokUgmkjW2SOPW6LY29ho0miBIJkvIIFROi8DGXtbHjrO7HsnQHktr7bVVekFYN+aLY46+4QYcTIpLhb1NCUVjMA3WvWAHp9RMJvdYWGOtpViJKaRP57sN3zEHvXP6YlAQChYThWIhGeQDUOysGV2MxTXmmGNijxw7QYNPd9PGbnAMp4NpIvCiEEkEHggAUGhWFnJurjn5zne8853rCCg5xI7eavPpdPpwWBosGExWd5QIKISOQiLHHosv3/kcX7uv+Xx875Y7HIKDw4KCJ88vSx+Wlg5LbnwarEMAio5emBqFjFDsrb1p795z7/O5r/vWf785AIJ4QVxc7NmyNNKfdSxPD0sjA1A0qnIMjuXLZNsXPvMzPiffn/XP3r/vhL4RmzYJe9gAinS4M8+am/d5WsckFB29UlsnT1zbWWfd3t379t5zvIzrHpDUatNeb/IkgLDUG95oDCvHkJGplAqpEyfOOOPSrfv1vf3s7+UaOQawxmgro1BSNyw8jYNtajDUsSMMBl9CW2Is11hDI0677K5vtbBZ4ucptFq9ldKiVUmUdcMdvqisXi0tLS1C0pAkCAZRLCuvI864qxCbolWWFi28bOX1g3AO39HvcnttxTb6nAaE0FtEKLZYuaUlCpICybR894RWKr3dohctS4Z33h2+y3f5nrjcNaeNYQSkUlRo29KspYUVmzkSxebn/rAqUtF2271oWSp23nf6rr7bd/vuebqDzscDpFIobNXS0oyFjd3lzL6mxp/7E9pS0XaFt1/VFOwb7zv73b7bd7vLXfOApy1AVgrt2rY0MWNx5faFK1dO/Hz+K1qptGjRslUg+OU3+tZt3eZ2u8udOOgwAdqqctuxbWliYnJ2y7f6hS99zWdP0Wgryyqrl4QnPsNN92ovt9jb3sEDDhOAraK23MstV67Q1lrP+lzTt/z+O1cBklTAInwgmJY+TNyw11Ze9gYdBgpL6lAAABcPXDVizXt/9vvc769fVkIAxLAcRLCYlqeOm7+jwZO12hwGgwKgbFg6nZZGDq1Yz+f9//3f769TAlxIdhTLFotpcSxLX2YUDCZJkIIgmBY+HE6npYFLt/j3/79vHwAA"
 
+const MainImage = ({
+  images,
+  interval,
+}: {
+  images: string[]
+  interval: number
+}) => {
+  const [currentIdx, setCurrentIdx] = useState(0)
 
+  useEffect(() => {
+    if (images.length <= 1) return
 
-const MainImage = ({images, interval}: {images: string[], interval: number}) => {
-  const [currentIdx, setCurrentIdx] = useState<number>(0)
+    const id = setInterval(() => {
+      setCurrentIdx((prev) => (prev + 1) % images.length)
+    }, interval)
 
-  useEffect(()=>{
-    const id = setInterval(()=>{
-      setCurrentIdx(prev=>((prev+1) % images.length))
-    },interval)
-    return ()=>clearInterval(id)
-  },[])
+    return () => clearInterval(id)
+  }, [images.length, interval])
 
-  
-  if(images.length === 0)
-  {
-    return null
-  }
-
+  if (images.length === 0) return null
 
   return (
-    <Image
-      src={images[currentIdx]}
-      alt={`cover-img-${currentIdx}`}
-      quality={100}
-      priority
-      placeholder="blur"
-      sizes="100vw"
-      blurDataURL={blurDataUrl}
-      fill
-      className="object-cover object-[center_+45%] duration-100 animate-fadeIn pointer-events-none"
-    />
-  );
-};
+    <div className="relative w-full h-full overflow-hidden">
+      {images.map((src, index) => (
+        <div
+          key={src}
+          className={`
+            absolute inset-0
+            transition-opacity duration-700 ease-in-out
+            ${index === currentIdx ? "opacity-100 z-10" : "opacity-0 z-0"}
+            will-change-opacity
+          `}
+        >
+          <Image
+            src={src}
+            alt={`cover-img-${index}`}
+            quality={100}
+            fill
+            priority={index === 0}
+            placeholder="blur"
+            blurDataURL={blurDataUrl}
+            sizes="100vw"
+            className="object-cover object-[center_+45%] pointer-events-none transform-gpu"
+          />
+        </div>
+      ))}
+    </div>
+  )
+}
 
-export default MainImage;
+export default MainImage

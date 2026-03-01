@@ -13,6 +13,7 @@ export const weddingApplicationSchema = z.object({
   attendance: z.enum(['Igen', 'Nem'], {
     message: 'Kérjük, válaszd ki, hogy részt veszel-e!',
   }),
+  isTransferBack: z.enum(['Igen', 'Nem']).optional(),
   phoneNumber: z.string().optional(),
   otherGuests: z.array(
       z.string().trim().min(1, 'A vendég neve nem lehet üres!')

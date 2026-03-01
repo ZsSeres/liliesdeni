@@ -47,6 +47,9 @@ export const menuElements: MenuElement[] = [
     icon: <Info size={iconSize} />,
   },
 ];
+
+const defaulSection = SectionEnum.Home
+
 const currentPageMapper = {
     [SectionEnum.Home]: <HomePage/>,
     [SectionEnum.Application]: <ApplicationPage/>,
@@ -54,9 +57,24 @@ const currentPageMapper = {
     [SectionEnum.Information]: <InfoPage />
 }
 
+const getCurrenSection = (section: string | null) => {
+  if(section === null)
+  {
+    return null
+  }
+  if (!(section in currentPageMapper))
+  {
+    return defaulSection
+  }
+
+  return section
+
+} 
+
+
 export default function MainLayout() {
     const {section} = useSectionTracker()
-    const currentSection = section === "" ? SectionEnum.Home : section
+    const currentSection = getCurrenSection(section)
     const page = currentPageMapper[currentSection] ?? <FullScreenLoader/>
 
     return (
@@ -67,8 +85,8 @@ export default function MainLayout() {
                 <div className="w-full h-screen relative ">
                     <div className="absolute inset-0 z-0">
                         <MainImage
-                        images={["/cover1.jpeg","/cover2.jpeg","/cover3.jpeg","/cover4.jpeg"]}
-                        interval={3000}
+                          images={["/cover1.jpeg","/cover2.jpeg","/cover3.jpeg","/cover4.jpeg"]}
+                          interval={10_000}
                         />
                         <ImageOverlay>
                           {page}

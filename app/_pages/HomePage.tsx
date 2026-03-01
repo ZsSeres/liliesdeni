@@ -3,10 +3,8 @@ import Counter from "../_components/Home/Counter"
 import { getFormattedWeddingDate, weddingPlace } from "../_components/consts"
 
 
-const weddingPlaceUrl = "https://share.google/28OH8WFaQSsDrKdKZ"
-
 export default function HomePage() {
-    return ( <div className="flex flex-col items-center justify-center h-screen">
+    return ( <div className="flex flex-col items-center justify-center mt-[15vh]">
     <div className="flex flex-col items-center gap-2">
       <h1 className="text-[42px] sm:text-6xl font-playfair font-normal">
         Lili és Deni

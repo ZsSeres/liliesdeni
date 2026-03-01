@@ -6,6 +6,7 @@ export const applications = pgTable('applications', {
   email: text('email').notNull(),
   phoneNumber: text('phoneNumber').default('').notNull(),
   attendance: boolean('attendance').notNull(),
+  isTransferBack: boolean('isTransferBack'), 
   otherGuests: text('otherGuests').array().default([]).notNull(),
   accommodation: text('accommodation').default('').notNull(),
   foodRestrictions: text('foodRestrictions').default('').notNull(),

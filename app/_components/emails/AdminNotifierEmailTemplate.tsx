@@ -16,9 +16,11 @@ const AdminNotifierEmailTemplate = (props: WeddingApplicationFormData) => {
         <br />
         Részvétel: {props.attendance}
         <br />
-        További vendégek: {props.otherGuests || '--'}
+        További vendégek: {props.otherGuests.length !== 0 ? props.otherGuests.join(", ")  : '--'}
         <br />
         Szállás: {props.accommodation || '--'}
+        <br />
+        Transzfer vissza: {props.isTransferBack !== undefined ? props.isTransferBack : '--'}
         <br />
         Komment: {props.comment || '--'}
         <br />

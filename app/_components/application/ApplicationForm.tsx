@@ -27,7 +27,7 @@ import { submitApplication } from '@/app/_db/actions';
 import { AccomodationEnum, WeddingApplicationFormData, weddingApplicationSchema } from '@/app/_lib/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2Icon } from 'lucide-react';
-import { FC, useState, useTransition } from 'react';
+import { FC, useEffect, useState, useTransition } from 'react';
 import { useForm, useWatch } from 'react-hook-form';
 import { toast } from 'sonner';
 
@@ -65,6 +65,7 @@ const ApplicationForm: FC = () => {
       email: '',
       phoneNumber: '',
       attendance: undefined,
+      isTransferBack: undefined,
       otherGuests: [],
       foodRestrictions: '',
       comment: '',
@@ -76,6 +77,29 @@ const ApplicationForm: FC = () => {
     control: applicantForm.control,
     name: 'attendance',
   });
+
+  useEffect(()=>{
+    if(attendanceValue === "Nem")
+    {
+      applicantForm.setValue("accommodation", undefined)
+      applicantForm.setValue("otherGuests", [])
+      applicantForm.setValue("isTransferBack", undefined)
+      applicantForm.setValue("phoneNumber", undefined)
+      applicantForm.setValue("foodRestrictions", "")
+    }
+  },[attendanceValue, applicantForm])
+
+  const accomodationValue = useWatch({
+    control: applicantForm.control,
+    name: 'accommodation'
+  })
+
+  useEffect(()=>{
+    if(accomodationValue === AccomodationEnum.Galosfa || AccomodationEnum.Hajmas)
+    {
+      applicantForm.setValue("isTransferBack", undefined)
+    }
+  },[accomodationValue, applicantForm])
 
   const onSubmit = (values: WeddingApplicationFormData) => {
     setPendingFormData(values);
@@ -217,7 +241,7 @@ const ApplicationForm: FC = () => {
                   </FormItem>
                 )}
               />
-              <FormField
+          <FormField
               control={applicantForm.control}
               name="otherGuests"
               render={({ field }) => (
@@ -264,7 +288,6 @@ const ApplicationForm: FC = () => {
             Új vendég hozzáadása
           </Button>
         </div>
-        <FormMessage />
       </FormItem>
     )}
     />
@@ -275,7 +298,12 @@ const ApplicationForm: FC = () => {
                   <FormItem>
                     <div className="flex items-center justify-between">
                       <FormLabel className="text-base form-medium">
-                        Szállás (információk lejjebb) {/**Add Link here for the accomodations */}
+                        Szállás <a
+                            href="#information"
+                            className="text-xs text-kombu-green italic underline hover:text-kombu-green/80 transition-colors"
+                          >
+                            (információk)
+                          </a>
                       </FormLabel>
                       {field.value && (
                         <Button
@@ -304,6 +332,58 @@ const ApplicationForm: FC = () => {
                   </FormItem>
                 )}
               />
+          {(accomodationValue === undefined || accomodationValue === "NoSzallas") && <FormField
+              control={applicantForm.control}
+              name="isTransferBack"
+              render={({ field }) => (
+            <FormItem>
+              <FormLabel className="text-base form-medium">
+                Szeretnél transzfert vissza Kaposvárra?
+                {/* Info bubble */}
+                  <div className="flex items-center gap-1 bg-gray-200 text-gray-800 text-sm px-2 py-0.5 rounded-full mb-3">
+                    <span className="font-bold mr-3">i</span>
+                    <span>Az esküvő helyszínéről 1:30-kor és 3:30-kor biztosítunk transzfert vissza Kaposvárra.</span>
+                  </div>
+              </FormLabel>
+              <FormControl>
+                <RadioGroup
+                  onValueChange={field.onChange}
+                  value={field.value ?? ''}
+                  className="flex flex-col space-y-2"
+                >
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem
+                      value="Igen"
+                      id="transferBackYes"
+                      className="border-kombu-green text-kombu-green"
+                    />
+                    <Label
+                      htmlFor="transferBackYes"
+                      className="font-normal cursor-pointer font-libre italic"
+                    >
+                      Igen, szeretnék
+                    </Label>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <RadioGroupItem
+                      value="Nem"
+                      id="transferBackNo"
+                      className="border-kombu-green text-kombu-green"
+                    />
+                    <Label
+                      htmlFor="transferBackNo"
+                      className="font-normal cursor-pointer font-libre italic"
+                    >
+                      Nem kérek vissza transzfert
+                    </Label>
+                  </div>
+                </RadioGroup>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+            )}
+        /> }
+
               <FormField
                 control={applicantForm.control}
                 name="foodRestrictions"

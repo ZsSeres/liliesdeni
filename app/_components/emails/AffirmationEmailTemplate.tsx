@@ -1,10 +1,10 @@
-import { WeddingApplicationFormData } from '@/app/_lib/types';
+import { AccomodationEnum, WeddingApplicationFormData } from '@/app/_lib/types';
 
 const getAccommodationLabel = (value: string) => {
   const labels: Record<string, string> = {
-    prónay: 'Prónay-kastély',
-    vendégház: 'Alsópetényi Vendégházak',
-    'nem-kell-szallas': 'Nem kérek szállást',
+    [AccomodationEnum.Hajmas]: 'Hajmás',
+    [AccomodationEnum.Galosfa]: 'Gálosfai Vendégházak',
+    [AccomodationEnum.NoSzallas]: 'Nem kérek szállást',
   };
   return labels[value] || value;
 };
@@ -38,7 +38,7 @@ const AffirmationEmailTemplate = (props: WeddingApplicationFormData) => {
           <p style={dataLabel}>Részvétel:</p>
           <p style={dataValue}>{props.attendance}</p>
 
-          {props.otherGuests && (
+          {props.otherGuests.length !== 0 && (
             <>
               <p style={dataLabel}>További vendégek:</p>
               <p style={dataValue}>{props.otherGuests.join(", ")}</p>
@@ -49,6 +49,13 @@ const AffirmationEmailTemplate = (props: WeddingApplicationFormData) => {
             <>
               <p style={dataLabel}>Szállás:</p>
               <p style={dataValue}>{getAccommodationLabel(props.accommodation)}</p>
+            </>
+          )}
+
+          {props.isTransferBack !== undefined && (
+            <>
+              <p style={dataLabel}>Transzfer vissza:</p>
+              <p style={dataValue}>{props.isTransferBack}</p>
             </>
           )}
 

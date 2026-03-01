@@ -1,26 +1,23 @@
-import { useEffect } from "react";
-
 const ImageOverlay = ({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) => {
-
-
-
+}: {
+  children: React.ReactNode
+}) => {  
   return (
-    <div className="absolute inset-0 w-full h-screen text-white animate-fadeIn overflow-y-auto">
-  
-  
-  {/* CENTERED STACK */}
-  <div className="flex flex-col items-center gap-8 sm:gap-10 text-center z-10 pt-20 h-screen">
-    {children}
-  </div>
+    <div className="absolute inset-0 z-20 text-white">
+      
+      {/* Optional dark overlay */}
+      <div className="absolute inset-0 bg-black/10 pointer-events-none" />
 
-    {/* Dark overlay */}
-  {/* <div className="absolute inset-0 bg-black/10 z-1"></div> */}
-</div>
-  
-  )}
+      {/* Scroll container */}
+      <div className="relative h-full overflow-y-auto" >
+        <div className="flex flex-col items-center sm:gap-10 text-center pt-20 px-4">
+          {children}
+        </div>
+      </div>
 
-export default ImageOverlay;
+    </div>
+  )
+}
+
+export default ImageOverlay
