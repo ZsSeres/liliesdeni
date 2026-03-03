@@ -1,4 +1,4 @@
-import { Hotel, Bed, ParkingCircleIcon, Shirt, XCircle } from "lucide-react";
+import { Hotel, Bed, ParkingCircleIcon, Shirt, XCircle, Mail, Facebook } from "lucide-react";
 import Section from "../_components/Section";
 import InfoElement from "../_components/InfoElement/InfoElement";
 import AccommodationCard, { AccommodationCardProps } from "../_components/InfoElement/AccomodationCard";
@@ -26,6 +26,40 @@ const galosfaAccomodation: AccommodationCardProps = {
   href: "https://www.zselicvolgy.hu/hu/",
   description: "A két helyszín között éjfél után óránként ingyenes transzfert biztosítunk."
 }
+
+
+const wifeEmail = "turzolili@gmail.com"
+const wifeFacebook = "https://www.facebook.com/profile.php?id=100008094557178"
+const husbandFacebook = "https://www.facebook.com/saab.deni"
+const husbandEmail = "saab.deni@gmail.com"
+
+
+type ContactItemProps = {
+  name: string;
+  email: string;
+  facebookUrl: string;
+};
+
+const ContactItem = ({ name, email, facebookUrl }: ContactItemProps) => (
+  <div className="space-y-1">
+    <p className="font-bold">{name}</p>
+    <p>
+      <a href={`mailto:${email}`} className="underline">
+        {email}
+      </a>
+    </p>
+    <p>
+      <a
+        href={facebookUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="underline"
+      >
+        Facebook
+      </a>
+    </p>
+  </div>
+);
 
 export const InfoPage = () => {
   return (
@@ -72,6 +106,17 @@ export const InfoPage = () => {
       <InfoElement title="Lemondás" icon={<XCircle  color="black"/>}>
         <p>Alig várjuk, hogy együtt ünnepeljük veletek ezt a különleges napot! Nagyon bízunk benne, hogy mindannyian ott lesztek velünk, és reméljük, hogy végül senkinek nem kell majd lemondania a részvételt. 😊 Ha mégis úgy alakulna, hogy nem tudtok eljönni, kérjük, legkésőbb március 31-ig jelezzétek nekünk a fenti űrlapon.</p>
       </InfoElement>
+      <InfoElement title="Elérhetőségek" icon={<Mail color="black" />}>
+  <p className="mb-4">
+    Ha bármilyen kérdésetek lenne az eseménnyel, szállással vagy szervezéssel kapcsolatban,
+    bátran keressetek minket az alábbi elérhetőségeken:
+  </p>
+
+  <div className="space-y-4">
+    <ContactItem name="Mennyasszony" email={wifeEmail} facebookUrl={wifeFacebook}/>
+    <ContactItem name="Vőlegény" email={husbandEmail} facebookUrl={husbandFacebook}/>
+  </div>
+</InfoElement>
     </Section>
   );
 };
